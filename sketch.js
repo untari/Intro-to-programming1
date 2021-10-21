@@ -15,16 +15,7 @@ function setup()
 function draw()
 {
     
-    //this command clears the background to black (try changing the numbers)
-    background(0,0,0);
-    
-    //change the fill color
-    fill(255,0,0);
-    
-    //change the outline color
-    stroke(0,255,0);
-    
-    //this command draws a rectangle with the outline and fill colors that we just set
-    rect(125,125,250,250);
+    rect(100, 100, 100, 100);
+    rect(250, 100, 100, 100);
     
 }
