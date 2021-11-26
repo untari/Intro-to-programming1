@@ -56,16 +56,16 @@ function draw()
 	text("1. standing front facing", 20, 160);
 
 	gameChar_x = 45;
-	gameChar_y = 137;
+	gameChar_y = 135;
 	//Add your code here ...
 
 	// fill(0);
 	// ellipse(gameChar_x, gameChar_y, 5, 5);
 
-	fill(200, 150, 150);
+	fill(255, 255, 0);
 	ellipse(gameChar_x, gameChar_y - 55, 35);
 
-	fill(255, 0, 0 );
+	fill(0, 128, 0);
 	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
 
 	fill(0);
@@ -80,9 +80,20 @@ function draw()
 	fill(0);
 	text("2. jumping facing forwards", 220, 160);
 
+
 	gameChar_x = 245;
 	gameChar_y = 137;
 	//Add your code here ...
+
+	fill(255, 255, 0);
+	ellipse(gameChar_x, gameChar_y - 55, 35);
+
+	fill(0, 128, 0);
+	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
+
+	fill(0);
+	rect(gameChar_x - 19, gameChar_y - 10, 14, 10);
+	rect(gameChar_x + 5, gameChar_y - 6, 10, 10);
 
 
 	//Walking, turned left
@@ -98,6 +109,17 @@ function draw()
 	//Add your code here ...
 
 
+	fill(255, 255, 0);
+	ellipse(gameChar_x, gameChar_y - 55, 35);
+
+	fill(0, 128, 0);
+	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
+
+	fill(0);
+	rect(gameChar_x - 22, gameChar_y - 7, 14, 10);
+	rect(gameChar_x - 2, gameChar_y - 7, 15, 10);
+
+
 	//Walking, turned right
 	stroke(100);
 	noFill();
@@ -110,9 +132,20 @@ function draw()
 	gameChar_y = 337;
 	//Add your code here ...
 
+	fill(255, 255, 0);
+	ellipse(gameChar_x, gameChar_y - 55, 35);
+
+	fill(0, 128, 0);
+	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
+
+	fill(0);
+	rect(gameChar_x - 13, gameChar_y - 8, 14, 10);
+	rect(gameChar_x + 5, gameChar_y - 8, 15, 10);
+
+
 
 	//Jumping right
-	stroke(100);
+	stroke(100)
 	noFill();
 	rect(20, 460, 50, 80);
 	noStroke();
@@ -122,6 +155,18 @@ function draw()
 	gameChar_x = 45;
 	gameChar_y = 537;
 	//Add your code here ...
+	fill(0);
+	ellipse(gameChar_x + 18, gameChar_y - 55, 5, 5);
+
+	fill(255, 255, 0);
+	ellipse(gameChar_x, gameChar_y - 55, 35);
+
+	fill(0, 128, 0);
+	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
+
+	fill(0);
+	rect(gameChar_x - 15, gameChar_y - 7, 10, 10);
+	rect(gameChar_x + 5, gameChar_y - 10, 15, 10);
 
 
 	//Jumping to the left
@@ -135,5 +180,18 @@ function draw()
 	gameChar_x = 245;
 	gameChar_y = 537;
 	//Add your code here ...
+
+	fill(0);
+	ellipse(gameChar_x - 18, gameChar_y - 55, 5, 5);
+
+	fill(255, 255, 0);
+	ellipse(gameChar_x, gameChar_y - 55, 35);
+
+	fill(0, 128, 0);
+	rect(gameChar_x - 13, gameChar_y - 35, 25, 30);
+
+	fill(0);
+	rect(gameChar_x - 20, gameChar_y - 10, 15, 10);
+	rect(gameChar_x + 5, gameChar_y - 7, 10, 10);
 
 }
