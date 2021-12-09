@@ -72,11 +72,11 @@ function draw()
 	else {
 		isFalling = false;
 	}
-	// // if(gameChar_x < floorPos_y)
-	// // {
-	// // 	gameChar_x += 1;
-	// // 	isPlummeting = true;
-	// // } 
+	if(gameChar_x < floorPos_y)
+	{
+		gameChar_x += 1;
+		isPlummeting = true;
+	} 
 
 	//draw the canyon
 	fill(100,155,255)
@@ -228,17 +228,17 @@ function draw()
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
 
-	// if(isPlummeting == true)
-	// {
-	// 	gameChar_y += 10;
-	// }
-	// if(gameChar_y < floorPos_y)
-	// {
-	// 	gameChar_y += 5;
-	// 	isFalling = true;
-	// } else {
-	// 	isFalling = false;
-	// }
+	if(isPlummeting == true)
+	{
+		gameChar_y += 10;
+	}
+	if(gameChar_y < floorPos_y)
+	{
+		gameChar_y += 5;
+		isFalling = true;
+	} else {
+		isFalling = false;
+	}
 	if(isLeft == true)
 	{
 		gameChar_x -= 5;
@@ -248,14 +248,14 @@ function draw()
 	{
 		gameChar_x += 5;
 	}
-	if(isJumping == true)
-	{
-		isJumping = false;
-	}
-	if(isFalling == true)
-	{
-		gameChar_y += 6;
-	}
+	// if(isJumping == true)
+	// {
+	// 	isJumping = false;
+	// }
+	// if(isFalling == true)
+	// {
+	// 	gameChar_y += 6;
+	// }
 
 }
 
