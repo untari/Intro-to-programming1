@@ -18,6 +18,7 @@ var isRight;
 var isJumping;
 var isFalling;
 var isPlummeting;
+var collectable;
 
 
 function setup()
@@ -33,6 +34,9 @@ function setup()
 	isFalling = false;
 	isPlummeting = false;
 
+
+	collectable = {x_pos: 100, y_pos: floorPos_y, size: 40, isFound: false};
+
 }
 
 function draw()
@@ -47,19 +51,39 @@ function draw()
 	fill(0,155,0);
 	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
 	
+
+	//collectable item
+	if(dist(gameChar_x, gameChar_y, collectable.x_pos, collectable.y_pos) < 20)
+	{
+		collectable.isFound = true;
+	}
+	if(collectable.isFound == false)
+	{
+		fill(255,0,0)
+		rect(collectable.x_pos + 92, collectable.y_pos - 30, collectable.x_pos - 60, collectable.y_pos - 400 );
+	}
+
 	//gravity
 	if(gameChar_y < floorPos_y)
 	{
-		gameChar_y += 1;
+		gameChar_y += 5;
 		isFalling = true;
-	} else {
+	} 
+	else {
 		isFalling = false;
 	}
-
+	// // if(gameChar_x < floorPos_y)
+	// // {
+	// // 	gameChar_x += 1;
+	// // 	isPlummeting = true;
+	// // } 
 
 	//draw the canyon
-	fill(153, 129, 69)
-	rect(100, 430, 80, 180);
+	fill(100,155,255)
+	rect(300, 430, 150, 180);
+	
+	fill(162, 235, 231)
+	rect(300, 520, 150, 140);
 
 	//the game character
 	if(isLeft && isFalling)
@@ -203,6 +227,18 @@ function draw()
 
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
+
+	// if(isPlummeting == true)
+	// {
+	// 	gameChar_y += 10;
+	// }
+	// if(gameChar_y < floorPos_y)
+	// {
+	// 	gameChar_y += 5;
+	// 	isFalling = true;
+	// } else {
+	// 	isFalling = false;
+	// }
 	if(isLeft == true)
 	{
 		gameChar_x -= 5;
@@ -246,7 +282,7 @@ function keyPressed()
 	if(keyCode == 32)
 	{
 		console.log("space-bar");
-		isJumping == true;
+		isPlummeting == true;
 		gameChar_y -= 95;
 
 	}
