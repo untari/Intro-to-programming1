@@ -1,7 +1,8 @@
-
+var maxDist;
 function setup() 
 {
     createCanvas(800,800);
+    maxDist = dist(0, 0, width/2, height/2);
 }
 
 function draw() 
@@ -16,8 +17,8 @@ function draw()
         for(var i = 0; i < 20; i++) //columns
         {   
             var d = dist(width/2, height/2, 50 + i * 30, 50 + j * 30 );
-            var r = d/10;
-            ellipse(50 + i * 30, 50 + j * 30, r , r);
+            var r = d/maxDist;
+            ellipse(50 + i * 30, 50 + j * 30, r * 30, r * 30);
         }
     }
  
