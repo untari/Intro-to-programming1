@@ -1,20 +1,17 @@
 
 var worldCloud;
-var currentWorld;
+var currentWord;
+var wordsX;
+var wordsY;
 
 function setup() 
 {
     createCanvas(500,500);
-    worldCloud = [];
+    wordCloud = [];
+    wordsX = [];
+    wordsY = [];
 
-    //push method
-    worldCloud.push("first");
-    worldCloud.push("second");
-    worldCloud.push("third");
-    worldCloud.push("fourth");
-
-
-    currentWorld = "";
+    currentWord = "";
 }
 
 function draw() 
@@ -23,13 +20,26 @@ function draw()
     background(0);
     fill(255);
 
-    for(var i = 0; i < 4; i++)
+    text(currentWord, 20, 20);
+
+    for(var i = 0; i < wordCloud.length; i++)
     {
-        text(worldCloud[i], 20, 40 + i * 30);
+        text(wordCloud[i], wordsX[i], wordsY[i]);
     }
 }
 
 function keyPressed()
 {
     console.log(keyCode);
+
+    if(keyCode == 13)
+    {
+        worldCloud.push(currentWord);
+        currentWord = "";
+        wordsX.push(random(width/4, width * 3/4));
+        wordsY.push(random(height/4, height * 3/4));
+    }
+    else{
+        currentWord += key;
+    }
 }
