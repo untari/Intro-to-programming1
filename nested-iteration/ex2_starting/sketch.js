@@ -25,6 +25,9 @@ function draw()
     for(var i = 0; i < wordCloud.length; i++)
     {
         text(wordCloud[i], wordsX[i], wordsY[i]);
+
+        wordsX[i] += random(-1, 1);
+        wordsY[i] += random(-1, 1);
     }
 }
 
@@ -34,7 +37,7 @@ function keyPressed()
 
     if(keyCode == 13)
     {
-        worldCloud.push(currentWord);
+        wordCloud.push(currentWord);
         currentWord = "";
         wordsX.push(random(width/4, width * 3/4));
         wordsY.push(random(height/4, height * 3/4));
