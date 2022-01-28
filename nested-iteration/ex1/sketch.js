@@ -15,7 +15,8 @@ function draw()
     {
         for(var i = 0; i < 20; i++) //columns
         {   
-            var r = i + j * 2;
+            var d = dist(width/2, height/2, 50 + i * 30, 50 + j * 30 );
+            var r = d/10;
             ellipse(50 + i * 30, 50 + j * 30, r , r);
         }
     }
