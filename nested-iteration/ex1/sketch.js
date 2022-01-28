@@ -16,7 +16,7 @@ function draw()
     {
         for(var i = 0; i < 20; i++) //columns
         {   
-            var d = dist(width/2, height/2, 50 + i * 30, 50 + j * 30 );
+            var d = dist(mouseX, mouseY, 50 + i * 30, 50 + j * 30 );
             var r = d/maxDist;
             ellipse(50 + i * 30, 50 + j * 30, r * 30, r * 30);
         }
