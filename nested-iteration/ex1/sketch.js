@@ -11,9 +11,9 @@ function draw()
     background(0);
     fill(255,0,255);
 
-    for(var h = 0; h < 3; h++)
+    for(var h = 0; h < mouseY/30; h++)
     {
-        for(var i = 0; i < 10; i++)
+        for(var i = 0; i < mouseX/60; i++)
         {
             ellipse(30 + i * 60, 30 + h * 40, 30);
         }
