@@ -16,6 +16,13 @@ function draw()
     {
         for(var i = 0; i < 20; i++) //columns
         {   
+            if(i%2 == 0) //modulo
+            {
+                fill(255);
+            }
+            else {
+                fill(255, 0 , 255);
+            }
             var d = dist(mouseX, mouseY, 50 + i * 30, 50 + j * 30 );
             var r = d/maxDist;
             ellipse(50 + i * 30, 50 + j * 30, r * 30, r * 30);
