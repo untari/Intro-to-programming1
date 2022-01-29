@@ -16,6 +16,7 @@ var isFalling;
 var isPlummeting;
 
 var trees_x;
+var collectables;
 
 function setup()
 {
@@ -39,6 +40,12 @@ function setup()
 
 	// Initialise arrays of scenery objects.
 	trees_x = [200, 300, 800, 1200, -500];
+
+	collectables = [
+		{x_pos: 100, y_pos: floorPos_y, size: 50, isFound: false},
+		{x_pos: 1000, y_pos: floorPos_y, size: 30, isFound: false},
+		{x_pos: 1800, y_pos: floorPos_y, size: 40, isFound: false}
+	];
 }
 
 function draw()
@@ -59,6 +66,13 @@ function draw()
 	// Draw canyons.
 
 	// Draw collectable items.
+	for(var i = 0; i < collectables.length; i++)
+	{
+		if(collectables[i].isFound == false)
+		{
+			drawCollectable(collectables[i]);
+		}
+	}
 
 	// Draw game character.
 	
@@ -351,7 +365,19 @@ function checkCanyon(t_canyon)
 
 function drawCollectable(t_collectable)
 {
-
+	noFill();
+	strokeWeight(6);
+	stroke(220, 185, 0);
+	ellipse(t_collectable.x_pos, t_collectable.y_pos -20, t_collectable.size);
+	fill(255, 0, 255);
+	stroke(255);
+	strokeWeight(1);
+	quad(
+		t_collectable.x_pos -5, t_collectable.y_pos - t_collectable.size,
+		t_collectable.x_pos -10, t_collectable.y_pos - (t_collectable.size + 15),
+		t_collectable.x_pos + 10, t_collectable.y_pos - (t_collectable.size + 15),
+		t_collectable.x_pos + 5, t_collectable.y_pos - t_collectable.size
+	);
 }
 
 // Function to check character has collected an item.
