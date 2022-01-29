@@ -15,6 +15,8 @@ var isRight;
 var isFalling;
 var isPlummeting;
 
+var trees_x;
+
 function setup()
 {
 	createCanvas(1024, 576);
@@ -36,6 +38,7 @@ function setup()
 	isPlummeting = false;
 
 	// Initialise arrays of scenery objects.
+	trees_x = [200, 300, 800, 1200, -500];
 }
 
 function draw()
@@ -51,6 +54,7 @@ function draw()
 	// Draw mountains.
 
 	// Draw trees.
+	drawTrees();
 
 	// Draw canyons.
 
@@ -301,7 +305,25 @@ function drawGameChar()
 // Function to draw mountains objects.
 
 // Function to draw trees objects.
-
+function drawTrees()
+{
+	for(let i = 0; i < trees_x.length; i++)
+	{
+		fill(100, 50, 0);
+		rect(75 + trees_x[i], -200/2 + floorPos_y, 50, 200/2);
+		fill(0, 100, 0);
+		triangle(
+			trees_x[i] + 25, -200/2 + floorPos_y, 
+			trees_x[i] + 100, -200 + floorPos_y,
+			trees_x[i] + 175, -200/2 + floorPos_y
+		);
+		triangle(
+			trees_x[i], -200/4 + floorPos_y, 
+			trees_x[i] + 100, -200 * 3/4 + floorPos_y,
+			trees_x[i] + 200, -200/4 + floorPos_y
+		);
+	}
+}
 
 // ---------------------------------
 // Canyon render and check functions
