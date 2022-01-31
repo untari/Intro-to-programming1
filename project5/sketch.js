@@ -15,8 +15,11 @@ var isRight;
 var isFalling;
 var isPlummeting;
 
+var clouds;
+var mountains;
 var trees_x;
 var collectables;
+var canyon;
 
 function setup()
 {
@@ -39,6 +42,23 @@ function setup()
 	isPlummeting = false;
 
 	// Initialise arrays of scenery objects.
+	clouds = [
+		{pos_x: 100, pos_y: 200},
+		{pos_x: 500, pos_y: 100},
+		{pos_x: 1000, pos_y: 100},
+	];
+
+	mountains = [
+		{pos_x: 300, height: 400},
+		{pos_x: 500, height: 200},
+		{pos_x: 800, height: 200},
+		{pos_x: 1000, height: 300},
+		{pos_x: 1300, height: 400},
+		{pos_x: 1500, height: 200},
+		{pos_x: 1800, height: 200},
+		{pos_x: 2000, height: 300}
+	];
+
 	trees_x = [200, 300, 800, 1200, -500];
 
 	collectables = [
@@ -57,14 +77,14 @@ function draw()
 	rect(0, floorPos_y, width, height/4); // draw some green ground
 
 	// Draw clouds.
+	drawClouds();
 
 	// Draw mountains.
+	drawMountains();
 
 	// Draw trees.
 	drawTrees();
-
-	// Draw canyons.
-
+	
 	// Draw collectable items.
 	for(var i = 0; i < collectables.length; i++)
 	{
@@ -73,6 +93,7 @@ function draw()
 			drawCollectable(collectables[i]);
 		}
 	}
+	// Draw canyons.
 
 	// Draw game character.
 	
@@ -315,8 +336,30 @@ function drawGameChar()
 // ---------------------------
 
 // Function to draw cloud objects.
+function drawClouds()
+{
+	for(var i = 0; i < clouds.length; i++)
+	{
+		fill(255);
+		{
+			ellipse(clouds[i].pos_x, clouds[i].pos_y, 55, 55);
+			ellipse(clouds[i].pos_x + 25, clouds[i].pos_y, 35, 35);
+			ellipse(clouds[i].pos_x + 45, clouds[i].pos_y, 25, 25);
+		}
+	}
+}
 
 // Function to draw mountains objects.
+function drawMountains()
+{
+	for(var i = 0; i < mountains.length; i++)
+	{
+		fill(100);
+		triangle(mountains[i].x_pos - mountains[i].height/2, floorPos_y,
+			mountains[i].pos_x, floorPos_y - mountains[i].height, 
+			mountains[i].x_pos + mountains[i].height/2, floorPos_y);
+	}
+}
 
 // Function to draw trees objects.
 function drawTrees()
