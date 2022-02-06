@@ -19,7 +19,10 @@ var clouds;
 var mountains;
 var trees_x;
 var collectables;
-var canyon;
+var canyons;
+
+var game_score;
+var flagpole;
 
 function setup()
 {
@@ -66,6 +69,16 @@ function setup()
 		{x_pos: 1000, y_pos: floorPos_y, size: 30, isFound: false},
 		{x_pos: 1800, y_pos: floorPos_y, size: 40, isFound: false}
 	];
+
+	canyons = [
+		{x_pos: 200, width: 120},
+		{x_pos: 700, width: 160},
+		{x_pos: 1200, width: 180},
+	];
+
+	game_score = 0;
+
+	flagpole = {isReached: false, x_pos: 500};
 }
 
 function draw()
@@ -76,6 +89,8 @@ function draw()
 	fill(0,155,0);
 	rect(0, floorPos_y, width, height/4); // draw some green ground
 
+	push();
+	translate(scrollPos, 0);
 	// Draw clouds.
 	drawClouds();
 
@@ -88,16 +103,30 @@ function draw()
 	// Draw collectable items.
 	for(var i = 0; i < collectables.length; i++)
 	{
-		if(collectables[i].isFound == false)
+		if(!collectables[i].isFound)
 		{
 			drawCollectable(collectables[i]);
+			checkCollectable(collectables[i]);
 		}
 	}
-	// Draw canyons.
 
+	// Draw canyons.
+	for(var i =0; i < canyons.length; i++)
+	{
+		drawCanyon(canyons[i]);
+		checkCanyon(canyons[i]);
+	}
+
+	renderFlagpole();
+	
+	pop();
 	// Draw game character.
 	
 	drawGameChar();
+
+	fill(255);
+	noStroke();
+	text("score: " + game_score, 20, 20);
 
 	// Logic to make the game character move or the background scroll.
 	if(isLeft)
@@ -132,6 +161,10 @@ function draw()
 	}
 	else{
 		isFalling = false;
+	}
+	if(isPlummeting)
+	{
+		gameChar_y += 5;
 	}
 
 	// Update real position of gameChar for collision detection.
@@ -355,9 +388,9 @@ function drawMountains()
 	for(var i = 0; i < mountains.length; i++)
 	{
 		fill(100);
-		triangle(mountains[i].x_pos - mountains[i].height/2, floorPos_y,
+		triangle(mountains[i].pos_x - mountains[i].height/2, floorPos_y,
 			mountains[i].pos_x, floorPos_y - mountains[i].height, 
-			mountains[i].x_pos + mountains[i].height/2, floorPos_y);
+			mountains[i].pos_x + mountains[i].height/2, floorPos_y);
 	}
 }
 
@@ -382,30 +415,7 @@ function drawTrees()
 	}
 }
 
-// ---------------------------------
-// Canyon render and check functions
-// ---------------------------------
-
-// Function to draw canyon objects.
-
-function drawCanyon(t_canyon)
-{
-
-}
-
-// Function to check character is over a canyon.
-
-function checkCanyon(t_canyon)
-{
-
-}
-
-// ----------------------------------
-// Collectable items render and check functions
-// ----------------------------------
-
 // Function to draw collectable objects.
-
 function drawCollectable(t_collectable)
 {
 	noFill();
@@ -427,5 +437,46 @@ function drawCollectable(t_collectable)
 
 function checkCollectable(t_collectable)
 {
+	if(dist(gameChar_world_x, gameChar_y, t_collectable.x_pos, t_collectable.y_pos)
+	< t_collectable.size)
+	{
+		t_collectable.isFound = true;
+		game_score += 1; 
+	}
+}
+// ---------------------------------
+// Canyon render and check functions
+// ---------------------------------
+
+// Function to draw canyon objects.
+
+function drawCanyon(t_canyon)
+{
+	fill(50, 50, 0);
+	rect(t_canyon.x_pos, floorPos_y, t_canyon.width, height - floorPos_y);
+}
+
+// Function to check character is over a canyon.
+
+function checkCanyon(t_canyon)
+{
+	if(gameChar_world_x > t_canyon.x_pos && gameChar_world_x < t_canyon.x_pos 
+		+ t_canyon.width && gameChar_y >= floorPos_y)
+		{
+			isPlummeting = true;
+		}
+}
+
+function renderFlagpole()
+{
+	push();
+	strokeWeight(5);
+	stroke(180);
+	line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
+	
+	pop();
 
 }
+
+
+
