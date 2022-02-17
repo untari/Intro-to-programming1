@@ -8,11 +8,19 @@ function setup()
     noStroke();
     
     tamagotchi = {
+
+        points: [],
+
         setup: function(){
-            console.log("setup");
+            // console.log("setup");
+            for(var i = 0; i < 36; i++)
+            {
+                var v = createVector(0, 0);
+                this.points.push(v);
+            }
         },
         draw: function(){
-            console.log("draw");
+            // console.log("draw");
         }
     }
 
