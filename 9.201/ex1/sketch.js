@@ -16,8 +16,12 @@ function setup()
 
     for(var i = 0; i < 100; i++)
     {
-        myPoints.push(createVector(random(-width/2, width/2),
-            random(-height/2, height/2)));
+        var v = createVector(random(-width/2, width/2),
+        random(-height/2, height/2));
+
+        v.normalize();
+
+        myPoints.push(v);
     }
     
 }
