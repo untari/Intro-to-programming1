@@ -15,7 +15,7 @@ function setup()
             // console.log("setup");
             for(var i = 0; i < 36; i++)
             {
-                var v = createVector(0, 0);
+                var v = createVector(0, 200);
                 this.points.push(v);
             }
         },
