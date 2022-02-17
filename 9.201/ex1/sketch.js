@@ -1,6 +1,7 @@
 
 var myPoint;
 var mul;
+var myPoints;
 
 function setup()
 {
@@ -10,6 +11,14 @@ function setup()
     myPoint = createVector(0,-200);
     
     mul = 1;
+
+    myPoints = [];
+
+    for(var i = 0; i < 100; i++)
+    {
+        myPoints.push(createVector(random(-width/2, width/2),
+            random(-height/2, height/2)));
+    }
     
 }
 
@@ -29,6 +38,12 @@ function draw()
     line(0, 0, myPoint.x, myPoint.y);
     
     myPoint.rotate(0.01);
+
+    stroke(255, 0, 0);
+    for(var i = 0; i < myPoints.length; i++)
+    {
+        line(0, 0, myPoints[i].x, myPoints[i].y);
+    }
     
 }
 
