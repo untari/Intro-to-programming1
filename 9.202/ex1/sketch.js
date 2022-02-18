@@ -10,7 +10,7 @@ function setup()
     tamagotchi = {
 
         points: [],
-        size: 200,
+        size: 100,
 
         setup: function(){
             // console.log("setup");
@@ -26,7 +26,7 @@ function setup()
         },
         draw: function(){
             // console.log("draw");
-            fill(255);
+            fill(128, 0, 128);
             beginShape();
             for(var i = 0; i < this.points.length; i++)
             {
@@ -38,6 +38,16 @@ function setup()
                 )
             }
             endShape();
+        },
+        grow: function()
+        {
+            this.size *= random(1, 1.005);
+            this.size = min(220, this.size);
+        },
+        shrink: function()
+        {   
+            this.size *= random(1, 0.9995);
+            this.size = max(30, this.size);
         }
     }
 
@@ -53,14 +63,13 @@ function draw()
     translate(width/2,height/2);
 
     tamagotchi.draw();
-    
+    tamagotchi.shrink();
     
 }
 
 function mouseDragged()
 {
-  
-
+    tamagotchi.grow();
 }
 
 
