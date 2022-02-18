@@ -10,7 +10,7 @@ function setup()
     tamagotchi = {
 
         points: [],
-        size: 100,
+        size: 200,
 
         setup: function(){
             // console.log("setup");
@@ -38,6 +38,19 @@ function setup()
                 )
             }
             endShape();
+
+            fill(255);
+            ellipse(this.size * 0.1, 0, this.size * 0.1);
+            ellipse(-this.size * 0.1, 0, this.size * 0.1);
+
+            fill(0);
+
+            var v = createVector(0,1);
+
+            v.mult(this.size * 0.02);
+
+            ellipse(this.size * 0.1 + v.x, v.y, this.size * 0.05);
+            ellipse(-this.size * 0.1 + v.x, v.y, this.size * 0.05);
         },
         grow: function()
         {
@@ -69,6 +82,8 @@ function draw()
 
 function mouseDragged()
 {
+    // var v = createVector(mouseX - width/2, mouseY - height/2);
+    // v.normalize();
     tamagotchi.grow();
 }
 
