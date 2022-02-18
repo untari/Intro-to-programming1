@@ -17,7 +17,7 @@ function setup()
             for(var i = 0; i < 36; i++)
             {
                 var incr = PI * 2/36;
-                var v = createVector(0, 1);
+                var v = createVector(0, random(0.75, 1));
                 //rotate the vector
                 var a = incr * i;
                 v.rotate(a);
@@ -32,7 +32,7 @@ function setup()
             {
                 var v = p5.Vector.mult(this.points[i], this.size);
 
-                vertex(
+                curveVertex(
                     v.x,
                     v.y   
                 )
