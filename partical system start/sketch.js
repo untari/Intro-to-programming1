@@ -54,10 +54,14 @@ function Emitter(x, y,xSpeed, ySpeed, size, colour)
 	this.updateParticles = function()
 	{
 		//iterate through particles and draw to the screen
-		for(var i = 0; i < this.particles.length; i++)
+		for(var i = this.particles.length-1; i >= 0; i--)
 		{
 			this.particles[i].drawPraticle();
 			this.particles[i].updateParticles();
+			if(this.particles[i].age > this.lifetime)
+			{
+				this.particles.splice(i, 1);
+			}
 		}
 	}
 }
