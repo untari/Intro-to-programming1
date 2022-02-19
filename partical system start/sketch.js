@@ -21,7 +21,7 @@ function Particle(x, y, xSpeed, ySpeed, size, colour)
 	}
 }
 
-function emitter(x, y)
+function Emitter(x, y,xSpeed, ySpeed, size, colour)
 {
 	this.x = x;
 	this.y = y;
@@ -39,12 +39,27 @@ function emitter(x, y)
 		this.lifetime = lifetime; 
 
 		//start emitter with initial particles
+		for(var i = 0; i < startParticles; i++ )
+		{
+			var p = new Particle(
+				random(this.x-10, this.x + 10),
+				random(this.y - 10, this.y + 10),
+				random(this.xSpeed - 1, this.xSpeed + 1),
+				random(this.ySpeed - 1, this.ySpeed + 1),
+				random(this.size -4, this.size + 4),
+				this.colour);
+			this.particles.push(p);
+		}
 	}
 }
  
+var emit;
+
 function setup()
 {
 	createCanvas(800, 600);
+	emit = new Emitter(width/2, height-100, 0, -1, 10, color(200, 0, 200));
+	emit.startEmitter(200, 100);
 }
 
 function draw()
