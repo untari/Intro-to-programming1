@@ -10,13 +10,13 @@ function Particle(x, y, xSpeed, ySpeed, size, colour)
 
 	this.drawPraticle = function()
 	{
-		fill(colour)
-		ellipse(x, y, size);
+		fill(this.colour)
+		ellipse(this.x, this.y, this.size);
 	}
-	this.updateParticle = function()
+	this.updateParticles = function()
 	{
-		this.x += xSpeed;
-		this.y += ySpeed;
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
 		this.age++;
 	}
 }
@@ -51,6 +51,15 @@ function Emitter(x, y,xSpeed, ySpeed, size, colour)
 			this.particles.push(p);
 		}
 	}
+	this.updateParticles = function()
+	{
+		//iterate through particles and draw to the screen
+		for(var i = 0; i < this.particles.length; i++)
+		{
+			this.particles[i].drawPraticle();
+			this.particles[i].updateParticles();
+		}
+	}
 }
  
 var emit;
@@ -64,5 +73,6 @@ function setup()
 
 function draw()
 {
-
+	background(10);
+	emit.updateParticles();
 }
