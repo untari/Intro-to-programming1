@@ -23,11 +23,36 @@ var canyons;
 
 var game_score;
 var flagpole;
+var lives;
+var isDead;
+var liveHearts;
+
+var jumpSound;
+
+
+function preload()
+{
+    soundFormats('mp3','wav');
+    
+    //load your sounds here
+    jumpSound = loadSound('assets/jump.wav');
+    jumpSound.setVolume(0.1);
+}
+
 
 function setup()
 {
 	createCanvas(1024, 576);
 	floorPos_y = height * 3/4;
+
+
+	lives = 3;
+
+	startGame();
+}
+
+function startGame()
+{
 	gameChar_x = width/2;
 	gameChar_y = floorPos_y;
 
@@ -76,9 +101,14 @@ function setup()
 		{x_pos: 1200, width: 180},
 	];
 
+
+	liveHearts  = [950, 900, 850];
+
 	game_score = 0;
 
-	flagpole = {isReached: false, x_pos: 500};
+	flagpole = {isReached: false, x_pos: 1500};
+
+	isDead = false;
 }
 
 function draw()
@@ -117,17 +147,41 @@ function draw()
 		checkCanyon(canyons[i]);
 	}
 
+	//draw flagpole
 	renderFlagpole();
 	
 	pop();
-	// Draw game character.
-	
-	drawGameChar();
 
+	// Draw game character
+	drawGameChar();
+	
+	//text for score
 	fill(255);
 	noStroke();
-	text("score: " + game_score, 20, 20);
+	text("score: " + game_score, 20, 50);
 
+	//draw lives heart
+	for(var i = 0; i < lives; i++)
+	{
+		drawLiveHearts(liveHearts[i]);
+	}
+	
+	//game over or level complete
+	fill(255);
+	noStroke();
+	textSize(55);
+
+	if(lives < 1)
+	{
+		text("Game Over. Press to continue", 100, 300);
+		return;
+	}
+	if(flagpole.isReached == true)
+	{
+		text("Level complete. Press to continue", 75, 300);
+		return;
+	}
+	
 	// Logic to make the game character move or the background scroll.
 	if(isLeft)
 	{
@@ -167,6 +221,17 @@ function draw()
 		gameChar_y += 5;
 	}
 
+	if(flagpole.isReached == false)
+	{
+		checkFlagpole();
+	}
+
+	//logic to check if game char is died
+	if(isDead == false)
+	{
+		checkPlayerDie();
+	}
+
 	// Update real position of gameChar for collision detection.
 	gameChar_world_x = gameChar_x - scrollPos;
 }
@@ -193,6 +258,7 @@ function keyPressed(){
 		if(!isFalling)
 		{
 			gameChar_y -= 100;
+			jumpSound.play();
 		}
 	}
 }
@@ -222,6 +288,7 @@ function keyReleased()
 
 function drawGameChar()
 {
+	
 	// draw game character
 	if(isLeft && isFalling)
 	{
@@ -444,6 +511,29 @@ function checkCollectable(t_collectable)
 		game_score += 1; 
 	}
 }
+
+//livesHearts function
+
+function drawLiveHearts(heart)
+{
+	push();
+
+	fill(255, 0, 0);
+
+	beginShape();
+	vertex(heart, 45);
+	vertex(heart + 10, 35);
+	vertex(heart + 20, 45);
+	vertex(heart, 65);
+	vertex(heart - 20, 45);
+	vertex(heart - 10, 35);
+	vertex(heart, 45);
+	endShape();
+
+	pop();
+}
+
+
 // ---------------------------------
 // Canyon render and check functions
 // ---------------------------------
@@ -467,6 +557,9 @@ function checkCanyon(t_canyon)
 		}
 }
 
+
+
+//flagpole
 function renderFlagpole()
 {
 	push();
@@ -475,10 +568,39 @@ function renderFlagpole()
 	line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
 	fill(255, 0, 255);
 	noStroke();
-	rect(flagpole.x_pos, floorPos_y - 250, 50, 50);
+
+	if(flagpole.isReached)
+	{
+		rect(flagpole.x_pos, floorPos_y - 250, 50, 50);
+	}
+	else{
+		rect(flagpole.x_pos, floorPos_y - 50, 50, 50);
+	}
 	pop();
 
 }
+function checkFlagpole()
+{
+	var d = abs(gameChar_world_x - flagpole.x_pos);
 
+	if(d < 15)
+	{
+		flagpole.isReached = true;
+	}
 
+	console.log(d);
+}
+
+function checkPlayerDie()
+{
+	if(gameChar_y > height)
+	{
+		isDead = true;
+		lives -= 1;
+		if(lives > 0 )
+		{
+			startGame();
+		}
+	}
+}
 
