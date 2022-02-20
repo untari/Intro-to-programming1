@@ -26,8 +26,9 @@ var flagpole;
 var lives;
 var isDead;
 var liveHearts;
-
+var platforms;
 var jumpSound;
+
 
 
 function preload()
@@ -101,9 +102,12 @@ function startGame()
 		{x_pos: 1200, width: 180},
 	];
 
+	platforms = [];
+
+	platforms.push(createPlatform(100, floorPos_y - 100, 100));
+	platforms.push(createPlatform(500, floorPos_y - 100, 200));
 
 	liveHearts  = [950, 900, 850];
-
 	game_score = 0;
 
 	flagpole = {isReached: false, x_pos: 1500};
@@ -130,6 +134,12 @@ function draw()
 	// Draw trees.
 	drawTrees();
 	
+	//draw platforms
+	for(var i = 0; i < platforms.length; i++)
+	{
+		platforms[i].draw();
+	}
+
 	// Draw collectable items.
 	for(var i = 0; i < collectables.length; i++)
 	{
@@ -210,8 +220,20 @@ function draw()
 	// Logic to make the game character rise and fall.
 	if(gameChar_y < floorPos_y)
 	{
-		gameChar_y += 2;
-		isFalling = true;
+		var isContact = false;
+		for(var i = 0; i < platforms.length; i++)
+		{
+			if(platforms[i].checkContact(gameChar_world_x, gameChar_y) == true)
+			{
+				isContact = true;
+				break;
+			}
+		}
+		if(isContact == false)
+		{
+			gameChar_y += 2;
+			isFalling = true;
+		}
 	}
 	else{
 		isFalling = false;
@@ -604,3 +626,28 @@ function checkPlayerDie()
 	}
 }
 
+function createPlatform(x, y, length)
+{
+	var p = {
+		x: x,
+		y: y,
+		length: length,
+		draw: function(){
+			fill(255, 0, 255);
+			rect(this.x, this.y, this.length, 20);
+		},
+		checkContact: function(gc_x, gc_y)
+		{
+			if(gc_x > this.x && gc_x < this.x + this.length)
+			{
+				var d = this.y - gc_y;
+				if(d >= 0 && d < 5)
+				{
+					return true;
+				}
+			}
+			return false;
+		} 
+	}
+	return p;
+}
