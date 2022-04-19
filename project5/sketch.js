@@ -1,33 +1,40 @@
 /*
+Coursework 2.2 Game Project Submissions
 
-The Game Project 5 - Bring it all together
+	 I learnt how to add a sound to my jump function, so whenever my game character jump it will have sound.
+	 And I learnt how to create an object(platform) using factory pattern  
+	 I also learnt how to create an object using constructor. However I find it difficult in the section
+	 where I use "this" in the function as it always suggested to change it into class function or use "constructor" inside the function instead.
 
-*/
+ */
 
 var gameChar_x;
 var gameChar_y;
+var gameChar_world_x;
 var floorPos_y;
 var scrollPos;
-var gameChar_world_x;
+
 
 var isLeft;
 var isRight;
 var isFalling;
 var isPlummeting;
+var isDead;
 
 var clouds;
-var mountains;
-var trees_x;
 var collectables;
 var canyons;
+var mountains;
+var trees_x;
 
-var game_score;
+var enemies;
 var flagpole;
+var game_score;
+var jumpSound;
 var lives;
-var isDead;
 var liveHearts;
 var platforms;
-var jumpSound;
+
 
 
 
@@ -35,9 +42,9 @@ function preload()
 {
     soundFormats('mp3','wav');
     
-    //load your sounds here
+    //load jumping sounds
     jumpSound = loadSound('assets/jump.wav');
-    jumpSound.setVolume(0.1);
+    jumpSound.setVolume(0.2);
 }
 
 
@@ -45,7 +52,6 @@ function setup()
 {
 	createCanvas(1024, 576);
 	floorPos_y = height * 3/4;
-
 
 	lives = 3;
 
@@ -74,7 +80,7 @@ function startGame()
 	clouds = [
 		{pos_x: 100, pos_y: 200},
 		{pos_x: 500, pos_y: 100},
-		{pos_x: 1000, pos_y: 100},
+		{pos_x: 1000, pos_y: 100}
 	];
 
 	mountains = [
@@ -88,7 +94,7 @@ function startGame()
 		{pos_x: 2000, height: 300}
 	];
 
-	trees_x = [200, 300, 800, 1200, -500];
+	trees_x = [250, 350, 850, 1200, -500];
 
 	collectables = [
 		{x_pos: 100, y_pos: floorPos_y, size: 50, isFound: false},
@@ -97,22 +103,27 @@ function startGame()
 	];
 
 	canyons = [
-		{x_pos: 200, width: 120},
-		{x_pos: 700, width: 160},
-		{x_pos: 1200, width: 180},
+		{x_pos: 190, width: 90},
+		{x_pos: 700, width: 100},
+		{x_pos: 1200, width: 120},
 	];
 
 	platforms = [];
 
-	platforms.push(createPlatform(100, floorPos_y - 100, 100));
-	platforms.push(createPlatform(500, floorPos_y - 100, 200));
+	platforms.push(createPlatform(150, floorPos_y - 100, 155));
+	platforms.push(createPlatform(600, floorPos_y - 100, 130));
 
 	liveHearts  = [950, 900, 850];
+
 	game_score = 0;
 
 	flagpole = {isReached: false, x_pos: 1500};
 
 	isDead = false;
+
+	enemies = [];
+	
+	enemies.push(new enemy(70, floorPos_y - 10, 110));
 }
 
 function draw()
@@ -158,7 +169,31 @@ function draw()
 	}
 
 	//draw flagpole
-	renderFlagpole();
+	if(!checkFlagpole.isReached)
+	{
+		checkFlagpole(flagpole);
+	}
+	renderFlagpole(flagpole);
+	
+	//draw enemies
+	for(var i =0; i < enemies.length; i++)
+	{
+		
+		enemies[i].draw();
+
+		//check if enemis has contact with the game variable
+		var isContact = enemies[i].checkContact(gameChar_world_x, gameChar_y);
+		{
+			if(isContact)
+			{
+				if(lives > 0)
+				{
+					startGame();
+					break;
+				}
+			}
+		}
+	}
 	
 	pop();
 
@@ -180,7 +215,6 @@ function draw()
 	fill(255);
 	noStroke();
 	textSize(55);
-
 	if(lives < 1)
 	{
 		text("Game Over. Press to continue", 100, 300);
@@ -254,14 +288,11 @@ function draw()
 		checkPlayerDie();
 	}
 
-	// Update real position of gameChar for collision detection.
+	//Update real position of gameChar for collision detection.
 	gameChar_world_x = gameChar_x - scrollPos;
 }
 
-
-// ---------------------
 // Key control functions
-// ---------------------
 
 function keyPressed(){
 
@@ -300,11 +331,6 @@ function keyReleased()
 	}
 
 }
-
-
-// ------------------------------
-// Game character render function
-// ------------------------------
 
 // Function to draw the game character.
 
@@ -452,11 +478,6 @@ function drawGameChar()
 	}
 }
 
-
-// ---------------------------
-// Background render functions
-// ---------------------------
-
 // Function to draw cloud objects.
 function drawClouds()
 {
@@ -464,9 +485,9 @@ function drawClouds()
 	{
 		fill(255);
 		{
-			ellipse(clouds[i].pos_x, clouds[i].pos_y, 55, 55);
-			ellipse(clouds[i].pos_x + 25, clouds[i].pos_y, 35, 35);
-			ellipse(clouds[i].pos_x + 45, clouds[i].pos_y, 25, 25);
+			ellipse(clouds[i].pos_x, clouds[i].pos_y, 35, 45);
+			ellipse(clouds[i].pos_x + 55, clouds[i].pos_y, 45, 55);
+			ellipse(clouds[i].pos_x + 25, clouds[i].pos_y, 45, 55);
 		}
 	}
 }
@@ -509,9 +530,9 @@ function drawCollectable(t_collectable)
 {
 	noFill();
 	strokeWeight(6);
-	stroke(220, 185, 0);
+	stroke(255, 248,);
 	ellipse(t_collectable.x_pos, t_collectable.y_pos -20, t_collectable.size);
-	fill(255, 0, 255);
+	fill(199, 21, 133);
 	stroke(255);
 	strokeWeight(1);
 	quad(
@@ -555,16 +576,11 @@ function drawLiveHearts(heart)
 	pop();
 }
 
-
-// ---------------------------------
-// Canyon render and check functions
-// ---------------------------------
-
 // Function to draw canyon objects.
 
 function drawCanyon(t_canyon)
 {
-	fill(50, 50, 0);
+	fill(0, 255, 255);
 	rect(t_canyon.x_pos, floorPos_y, t_canyon.width, height - floorPos_y);
 }
 
@@ -573,21 +589,19 @@ function drawCanyon(t_canyon)
 function checkCanyon(t_canyon)
 {
 	if(gameChar_world_x > t_canyon.x_pos && gameChar_world_x < t_canyon.x_pos 
-		+ t_canyon.width && gameChar_y >= floorPos_y)
-		{
-			isPlummeting = true;
-		}
+	+ t_canyon.width && gameChar_y >= floorPos_y)
+	{
+		isPlummeting = true;
+	}
 }
 
-
-
 //flagpole
-function renderFlagpole()
+function renderFlagpole(t_flagpole)
 {
 	push();
 	strokeWeight(5);
 	stroke(180);
-	line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
+	line(t_flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
 	fill(255, 0, 255);
 	noStroke();
 
@@ -601,6 +615,7 @@ function renderFlagpole()
 	pop();
 
 }
+
 function checkFlagpole()
 {
 	var d = abs(gameChar_world_x - flagpole.x_pos);
@@ -612,7 +627,8 @@ function checkFlagpole()
 
 	console.log(d);
 }
-
+ 
+//function to check if game character lose lives
 function checkPlayerDie()
 {
 	if(gameChar_y > height)
@@ -626,6 +642,7 @@ function checkPlayerDie()
 	}
 }
 
+//function to create platform 
 function createPlatform(x, y, length)
 {
 	var p = {
@@ -633,7 +650,7 @@ function createPlatform(x, y, length)
 		y: y,
 		length: length,
 		draw: function(){
-			fill(255, 0, 255);
+			fill(189, 183, 107);
 			rect(this.x, this.y, this.length, 20);
 		},
 		checkContact: function(gc_x, gc_y)
@@ -651,3 +668,45 @@ function createPlatform(x, y, length)
 	}
 	return p;
 }
+
+//function enemies
+
+function enemy(x, y, range)
+{	
+
+	this.x = x;
+	this.y = y;
+	this.range = range;
+	this.currentX = x;
+	this.inc = 0.5;
+
+
+	this.update = function()
+	{
+		this.currentX += this.inc;
+
+		if(this.currentX >=  this.x + this.range)
+		{
+			this.inc = -1;
+		}
+		else if( this.currentX < x)
+		{
+			this.inc = 1;
+		}
+	},
+	this.draw = function()
+	{
+		this.update();
+		fill(255, 0, 0);
+		ellipse( this.currentX,  this.y, 20, 20);		
+	}
+	this.checkContact = function(gc_x, gc_y){
+		var d = dist(gc_x, gc_y, this.currentX, this.y)
+		if(d < 20)
+		{
+			return true;
+		} 
+		return false;
+	}
+}
+
